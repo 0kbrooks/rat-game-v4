@@ -3,24 +3,23 @@ import * as React from "react";
 import { useState } from "react";
 let mousePos = { x: 0, y: 0 };
 function DropBox() {
-  return <div className="dropBox">grough</div>;
+  const [mouseOver, setMouseOver] = useState(false)
+  return <div className={mouseOver ? "dropBox mouseOver" : "dropBox"} onMouseEnter={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)}>grough</div>;
 }
 function DropItem() {
   const [dragging, setDragging] = useState(false);
   const [draggingIntervalId, setDraggingIntervalId] = useState();
   const [style,setStyle] = useState({
-    position:"absolute",
+    position:"fixed",
     top:"100px",
     left:"100px"
   })
   function draggingPeriodic() {
     let newStyle = {}
     Object.assign(newStyle,style)
-    newStyle.left = mousePos.x+"px"
-    newStyle.top = mousePos.y+"px"
-    console.log(newStyle.top)
+    newStyle.left = mousePos.x-10+"px"
+    newStyle.top = mousePos.y-10+"px"
     setStyle(newStyle)
-    console.log(style.top)
   }
   function mouseDownHandler() {
     setDragging(true);
@@ -32,6 +31,9 @@ function DropItem() {
     setDragging(false);
     clearInterval(draggingIntervalId);
     setDraggingIntervalId(null);
+    for(let i of document.getElementsByClassName("dropBox")){
+      console.log(i)
+    }
   }
   return (
     <span
@@ -44,7 +46,6 @@ function DropItem() {
   );
 }
 async function afterLoad() {
-  console.log('penis')
   await new Promise((resolve) => window.addEventListener("load", resolve))
   document.addEventListener("pointermove", (event) => {mousePos = {x:event.clientX,y:event.clientY};})
 }

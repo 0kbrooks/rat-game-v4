@@ -25,3 +25,6 @@ pre { font-family: Consolas, monaco, monospace; font-size: 13px; font-style: nor
   border-radius: 10px;
   background-color: lightgray;
 }
+.mouseOver {
+  font-weight:bold;
+}
