@@ -8,17 +8,19 @@ function DropBox() {
 function DropItem() {
   const [dragging, setDragging] = useState(false);
   const [draggingIntervalId, setDraggingIntervalId] = useState();
-  const [mousePosX, setMousePosX] = useState(0);
-  const [mousePosY, setMousePosY] = useState(0);
   const [style,setStyle] = useState({
     position:"absolute",
     top:"100px",
     left:"100px"
   })
-  function draggingPeriodic(e) {
-    if(dragging){
-      
-    }
+  function draggingPeriodic() {
+    let newStyle = {}
+    Object.assign(newStyle,style)
+    newStyle.left = mousePos.x+"px"
+    newStyle.top = mousePos.y+"px"
+    console.log(newStyle.top)
+    setStyle(newStyle)
+    console.log(style.top)
   }
   function mouseDownHandler() {
     setDragging(true);
@@ -34,6 +36,8 @@ function DropItem() {
   return (
     <span
       style={style}
+      onMouseDown={mouseDownHandler}
+      onMouseUp={mouseUpHandler}
     >
       pegnis
     </span>
