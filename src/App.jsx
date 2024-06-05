@@ -5,28 +5,40 @@ let mousePos = { x: 0, y: 0 };
 function DropBox() {
   const [mouseOver, setMouseOver] = useState(false);
   var style = {
-    display:"flex",
-    flexDirection:"column",
-    flexWrap:"wrap"
-  }
+    display: "flex",
+    flexDirection: "column",
+    flexWrap: "wrap",
+    flexJustify: "flex-start",
+    alignItems: "flex-start",
+    alightContent: "space-between",
+    border: "3px dotted black",
+    borderRadius: "10px",
+    backgroundColor: "lightgray",
+  };
   return (
     <>
-    <div
-      className={(mouseOver ? "dropBox mouseOver" : "dropBox")}
-      onMouseEnter={() => setMouseOver(true)}
-      onMouseLeave={() => setMouseOver(false)}
-      style={style}
-    >
-      placeholder
-    </div></>
+      <div
+        className={mouseOver ? "dropBox mouseOver" : "dropBox"}
+        onMouseEnter={() => setMouseOver(true)}
+        onMouseLeave={() => setMouseOver(false)}
+        style={style}
+      >
+        placeholder
+      </div>
+    </>
   );
 }
 function DropItem() {
   const [dragging, setDragging] = useState(false);
   const [draggingIntervalId, setDraggingIntervalId] = useState();
   const [style, setStyle] = useState({
-    position: "fixed",
-    userSelect:"none",
+    position: "static",
+    userSelect: "none",
+    border: "1px solid black",
+    display: "inline-block",
+    padding: "10px",
+    backgroundColor: "lightgray",
+    borderRadius: "10px",
   });
   function draggingPeriodic() {
     let newStyle = {};
@@ -45,16 +57,27 @@ function DropItem() {
     if (!draggingIntervalId) {
       setDraggingIntervalId(setInterval(draggingPeriodic, 100));
     }
-    event.target.style.position="absolute"
+    event.target.style.position = "absolute";
   }
   function mouseUpHandler(event) {
     setDragging(false);
     clearInterval(draggingIntervalId);
     setDraggingIntervalId(null);
-    let oldElement = document.elementFromPoint(mousePos.x,mousePos.y)
-    oldElement.remove()
-    document.elementFromPoint(mousePos.x,mousePos.y).appendChild(oldElement)
-    event.target.style.position="static"
+    let oldElement = document.elementFromPoint(mousePos.x, mousePos.y);
+    let oldElementParent = oldElement.parentNode;
+    oldElement.remove();
+    if (
+      document
+        .elementFromPoint(mousePos.x, mousePos.y)
+        .classList.contains("dropBox")
+    ) {
+      document.elementFromPoint(mousePos.x, mousePos.y).appendChild(oldElement);
+      oldElement.classList.remove('error-animation')
+    } else {
+      oldElementParent.appendChild(oldElement);
+      oldElement.classList.add('error-animation')
+    }
+    event.target.style.position = "static";
   }
   return (
     <div
@@ -77,6 +100,11 @@ afterLoad();
 export default function App() {
   return (
     <div id="parend">
+      <DropBox />
+      <DropItem />
+      <DropItem />
+      <DropItem />
+      <DropItem />
       <DropBox />
       <DropItem />
     </div>

@@ -10,9 +10,6 @@ p { font-family: Consolas, monaco, monospace; font-size: 14px; font-style: norma
 blockquote { font-family: Consolas, monaco, monospace; font-size: 21px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 30px; } 
 pre { font-family: Consolas, monaco, monospace; font-size: 13px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 18.5714px; }
 .dropBox {
-  border: 3px dotted black;
-  border-radius: 10px;
-  background-color: lightgray;
 }
 .mouseOver {
   text-decoration:underline;
@@ -26,4 +23,18 @@ pre { font-family: Consolas, monaco, monospace; font-size: 13px; font-style: nor
   height:100vh;
   padding:10px;
   text-align:left;
+}
+.error-animation {
+  animation: 0.75s 1 alternate error;
+}
+@keyframes error {
+  from{
+    background-color:auto;
+  }
+  50% {
+    background-color:#ec8383;
+  }
+  to {
+    background-color:auto;
+  }
 }
