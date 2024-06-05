@@ -38,7 +38,7 @@ function DropBox(props) {
             justifySelf: "flex-start",
           }}
         >
-          greg
+          <b>Rat Cage</b>
         </span>
         <div
           className={mouseOver ? "dropBox mouseOver" : "dropBox"}
