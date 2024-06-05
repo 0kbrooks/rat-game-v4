@@ -4,14 +4,21 @@ import { useState } from "react";
 let mousePos = { x: 0, y: 0 };
 function DropBox() {
   const [mouseOver, setMouseOver] = useState(false);
+  var style = {
+    display:"flex",
+    flexDirection:"column",
+    flexWrap:"wrap"
+  }
   return (
+    <>
     <div
-      className={mouseOver ? "dropBox mouseOver" : "dropBox"}
+      className={(mouseOver ? "dropBox mouseOver" : "dropBox")}
       onMouseEnter={() => setMouseOver(true)}
       onMouseLeave={() => setMouseOver(false)}
+      style={style}
     >
-      grough
-    </div>
+      placeholder
+    </div></>
   );
 }
 function DropItem() {
@@ -19,6 +26,7 @@ function DropItem() {
   const [draggingIntervalId, setDraggingIntervalId] = useState();
   const [style, setStyle] = useState({
     position: "fixed",
+    userSelect:"none",
   });
   function draggingPeriodic() {
     let newStyle = {};
@@ -29,6 +37,11 @@ function DropItem() {
   }
   function mouseDownHandler(event) {
     setDragging(true);
+    let newStyle = {};
+    Object.assign(newStyle, style);
+    newStyle.left = mousePos.x - 10 + "px";
+    newStyle.top = mousePos.y - 10 + "px";
+    setStyle(newStyle);
     if (!draggingIntervalId) {
       setDraggingIntervalId(setInterval(draggingPeriodic, 100));
     }
@@ -42,17 +55,16 @@ function DropItem() {
     oldElement.remove()
     document.elementFromPoint(mousePos.x,mousePos.y).appendChild(oldElement)
     event.target.style.position="static"
-    console.log(event.target.style.position)
   }
   return (
-    <span
+    <div
       style={style}
       onMouseDown={mouseDownHandler}
       onMouseUp={mouseUpHandler}
       className="penis"
     >
-      pegnis
-    </span>
+      placeholder text
+    </div>
   );
 }
 async function afterLoad() {
